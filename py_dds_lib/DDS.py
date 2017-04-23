@@ -1,8 +1,12 @@
-import serial
+'''Module for controlling MHS-52XX series DDS Function Generators'''
 import logging
 import sys
 
+import serial
+
+
 class DDSInteraction:
+    '''Class for interacting with MHS-52XX series DDS Function Generators'''
     def __init__(self, port):
         try:
             self.s = serial.Serial(
@@ -42,7 +46,7 @@ class DDSInteraction:
 
     def chan_off(self, channel):
         """Disable waveform output on channel"""
-        cmd = ":s{}b".format(channel)
+        cmd = ":s{}b0".format(channel)
         foo = self._get_result_from_cmd(cmd)
         return foo
 

@@ -1,3 +1,2 @@
-from DDSInteraction import DDSInteraction
+from .DDS import DDSInteraction
 
-__all__ = [ DDSInteraction ]
