@@ -2,8 +2,6 @@ import serial
 import logging
 import sys
 
-logging.basicConfig(level=logging.DEBUG)
-
 class DDSInteraction:
     def __init__(self, port):
         try:
