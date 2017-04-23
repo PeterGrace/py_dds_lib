@@ -31,7 +31,6 @@ class DDSInteraction:
         logging.debug("rs: {}".format(rs))
         return rs[cmdlen:]
 
-
     def get_version(self):
         """Return DDS Signal Generator Version String"""
         cmd = ":r0c"
@@ -93,10 +92,59 @@ class DDSInteraction:
         foo = self._get_result_from_cmd(cmd)
         return foo
 
+    def set_phase(self, channel, phase):
+        """set phase of waveform for channel, in degrees"""
+        phase = int(phase)
+        cmd = ":s{}p{}".format(channel, phase)
+        foo = self._get_result_from_cmd(cmd)
+        return foo
+
     def set_frequency(self, channel, frequency):
         """set frequency of waveform, in hertz"""
         frequency = frequency * 100
         cmd = ":s{}f{}".format(channel, frequency)
+        foo = self._get_result_from_cmd(cmd)
+        return foo
+
+    def set_attenuation(self, channel, attenuate=False):
+        """Attenuate selected channel by 20dB."""
+        if attenuate:
+            val = 0
+        else:
+            val = 1
+        cmd = ":s{}y{}".format(channel, val)    
+        foo = self._get_result_from_cmd(cmd)
+        return foo
+
+    def set_tracking(self, trace=False):
+        """Set Ch2 frequency to same as Ch1.  If both Ch1 and Ch2 have same amplitude at time of trace set,
+        amplitude is also tracked.  Same for duty cycle; if they are equal when tracking is turned on, they will track
+        for further changes."""
+        if trace:
+            val = 1
+        else:
+            val = 0
+        cmd = ":s3b{}".format(val)
+        foo = self._get_result_from_cmd(cmd)
+        return foo    
+
+    def ttl_input(self, TTL=True):
+        """Set input to TTL if passed True."""
+        if TTL:
+            val = 1
+        else:
+            val = 0
+        cmd = ":s4b{}".format(val)
+        foo = self._get_result_from_cmd(cmd)
+        return foo        
+
+
+    def engage_counter(self, counter=False):
+        if counter:
+            val = 1
+        else:
+            val = 0    
+        cmd = ":s6b{}".format(val)
         foo = self._get_result_from_cmd(cmd)
         return foo
 
